@@ -7,8 +7,8 @@ type RandomQuoteProps = {
   loading: boolean;
   error: string | null;
   onNewQuote: () => void;
-  onShare?: () => void;
-  onCopy?: () => void;
+  onShare: () => void;
+  onCopy: () => void;
 };
 
 export default function RandomQuote({
@@ -31,10 +31,7 @@ export default function RandomQuote({
         </View>
       )}
       <View style={styles.conatinerBottomBox}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => console.log("share")}
-        >
+        <TouchableOpacity style={styles.button} onPress={() => onShare()}>
           <Ionicons name="share" size={24} color={"#6d6c6cff"} />
         </TouchableOpacity>
 
@@ -42,10 +39,7 @@ export default function RandomQuote({
           <Text style={styles.textButton}>GENERA</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => console.log("copy")}
-        >
+        <TouchableOpacity style={styles.button} onPress={() => onCopy()}>
           <Ionicons name="copy" size={24} color={"#6d6c6cff"} />
         </TouchableOpacity>
       </View>
