@@ -1,14 +1,23 @@
 import RandomQuote from "@/components/my/RandomQuote";
-import useFavorites from "@/hooks/my/useFavorites";
+import { FavoritesContext } from "@/context/favoritesContext";
 import useQuote from "@/hooks/my/useQuote";
 import * as Clipboard from "expo-clipboard";
-import { useMemo } from "react";
-import { Share, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
+import { useContext, useMemo } from "react";
+import {
+  ScrollView,
+  Share,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { moderateScale } from "react-native-size-matters";
 
 export default function HomeScreen() {
   const { quote, loading, error, fetchQuote } = useQuote();
-  const { toggleFavorite, favoriteIds } = useFavorites();
+  const { toggleFavorite, favoriteIds } = useContext(FavoritesContext);
+  const router = useRouter();
   const isFavorite = useMemo(
     () => (quote ? favoriteIds.includes(quote.id) : false),
     [quote, favoriteIds]
@@ -32,18 +41,43 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, padding: 8 }}>
-      <RandomQuote
-        quote={quote}
-        loading={loading}
-        error={error}
-        onNewQuote={fetchQuote}
-        onCopy={copyToClipboard}
-        onShare={shareTextQuote}
-        toggleFavorite={toggleFavorite}
-        isFavorite={isFavorite}
-      />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ alignItems: "center" }}
+      >
+        <RandomQuote
+          quote={quote}
+          loading={loading}
+          error={error}
+          onNewQuote={fetchQuote}
+          onCopy={copyToClipboard}
+          onShare={shareTextQuote}
+          toggleFavorite={toggleFavorite}
+          isFavorite={isFavorite}
+        />
+        <TouchableOpacity
+          style={styles.buttonFavorites}
+          onPress={() => router.push("/favorites")}
+        >
+          <Text style={styles.textButton}>Citazioni Preferite</Text>
+        </TouchableOpacity>
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  buttonFavorites: {
+    backgroundColor: "#4a4e69",
+    padding: moderateScale(12),
+    borderRadius: moderateScale(8),
+    width: moderateScale(200),
+    alignItems: "center",
+  },
+  textButton: {
+    color: "#fff",
+    fontSize: moderateScale(16),
+    fontWeight: "600",
+    textAlign: "center",
+  },
+});
