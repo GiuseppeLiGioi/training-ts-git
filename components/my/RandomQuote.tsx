@@ -17,6 +17,8 @@ type RandomQuoteProps = {
   onNewQuote: () => void;
   onShare: () => void;
   onCopy: () => void;
+  toggleFavorite: (id: string) => void;
+  isFavorite: boolean;
 };
 
 export default function RandomQuote({
@@ -26,6 +28,8 @@ export default function RandomQuote({
   onNewQuote,
   onShare,
   onCopy,
+  toggleFavorite,
+  isFavorite,
 }: RandomQuoteProps) {
   const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -42,6 +46,14 @@ export default function RandomQuote({
       {error && <Text style={styles.errorText}>Errore: {error}</Text>}
       {quote && loading === false && !error && (
         <View style={styles.containerQuote}>
+          <Ionicons
+            name={isFavorite ? "star" : "star-outline"}
+            size={moderateScale(24)}
+            color={isFavorite ? COLOR_STAR : COLOR_SECONDARY}
+            style={styles.starIcon}
+            onPress={() => toggleFavorite(quote.id)}
+          />
+
           <Text style={styles.quote}>Citazione casuale: {quote.quote}</Text>
           <Text style={styles.author}>Autore Citazione: {quote.author}</Text>
         </View>
@@ -72,6 +84,7 @@ const COLOR_BUTTON_BG = "#f7f7f7ff";
 const COLOR_ICON = "#6d6c6cff";
 const COLOR_ERROR = "#d90429";
 const COLOR_BORDER = "#f5f5f5ff";
+const COLOR_STAR = "#ffdb3dff";
 
 const styles = StyleSheet.create({
   containerBoxQuote: {
@@ -123,13 +136,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLOR_BORDER,
     marginBottom: moderateScale(8),
+    position: "relative",
+  },
+  starIcon: {
+    position: "absolute",
+    top: moderateScale(6),
+    right: moderateScale(6),
   },
   quote: {
     fontSize: moderateScale(18),
     textAlign: "center",
     color: COLOR_PRIMARY,
     fontStyle: "italic",
-    marginBottom: moderateScale(4),
+    marginVertical: moderateScale(24),
     lineHeight: moderateScale(26),
   },
   author: {
