@@ -1,6 +1,13 @@
 import { Quote } from "@/types/quote";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { moderateScale } from "react-native-size-matters";
 
 type RandomQuoteProps = {
@@ -20,11 +27,19 @@ export default function RandomQuote({
   onShare,
   onCopy,
 }: RandomQuoteProps) {
+  const { width: SCREEN_WIDTH } = Dimensions.get("window");
+
+  const isWeb = Platform.OS === "web";
   return (
-    <View style={styles.containerBoxQuote}>
+    <View
+      style={[
+        styles.containerBoxQuote,
+        { width: isWeb ? Math.min(SCREEN_WIDTH * 0.6, 600) : "90%" },
+      ]}
+    >
       <Text style={styles.titleBox}>GENERA UNA CITAZIONE CASUALE!</Text>
-      {loading && <Text>Caricamento in corso...</Text>}
-      {error && <Text>Errore: {error}</Text>}
+      {loading && <Text style={styles.loading}>Caricamento in corso...</Text>}
+      {error && <Text style={styles.errorText}>Errore: {error}</Text>}
       {quote && loading === false && !error && (
         <View style={styles.containerQuote}>
           <Text style={styles.quote}>Citazione casuale: {quote.quote}</Text>
@@ -55,6 +70,7 @@ const COLOR_BACKGROUND = "#fff";
 const COLOR_QUOTE_BG = "#ecececff";
 const COLOR_BUTTON_BG = "#f7f7f7ff";
 const COLOR_ICON = "#6d6c6cff";
+const COLOR_ERROR = "#d90429";
 const COLOR_BORDER = "#f5f5f5ff";
 
 const styles = StyleSheet.create({
@@ -73,6 +89,7 @@ const styles = StyleSheet.create({
     gap: moderateScale(16),
     borderWidth: 1,
     borderColor: COLOR_BORDER,
+    alignSelf: "center",
   },
   titleBox: {
     fontSize: moderateScale(22),
@@ -81,6 +98,19 @@ const styles = StyleSheet.create({
     color: COLOR_PRIMARY,
     letterSpacing: 0.5,
     marginBottom: moderateScale(8),
+  },
+  loading: {
+    fontSize: moderateScale(16),
+    color: COLOR_SECONDARY,
+    textAlign: "center",
+    marginBottom: moderateScale(8),
+  },
+  errorText: {
+    fontSize: moderateScale(16),
+    color: COLOR_ERROR,
+    textAlign: "center",
+    marginBottom: moderateScale(8),
+    fontWeight: "600",
   },
   containerQuote: {
     padding: moderateScale(12),
