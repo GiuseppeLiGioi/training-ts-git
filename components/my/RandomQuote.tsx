@@ -1,6 +1,7 @@
 import { Quote } from "@/types/quote";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { moderateScale } from "react-native-size-matters";
 
 type RandomQuoteProps = {
   quote: Quote | undefined;
@@ -32,7 +33,7 @@ export default function RandomQuote({
       )}
       <View style={styles.conatinerBottomBox}>
         <TouchableOpacity style={styles.button} onPress={() => onShare()}>
-          <Ionicons name="share" size={24} color={"#6d6c6cff"} />
+          <Ionicons name="share" size={moderateScale(24)} color={COLOR_ICON} />
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} onPress={() => onNewQuote()}>
@@ -40,56 +41,107 @@ export default function RandomQuote({
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} onPress={() => onCopy()}>
-          <Ionicons name="copy" size={24} color={"#6d6c6cff"} />
+          <Ionicons name="copy" size={moderateScale(24)} color={COLOR_ICON} />
         </TouchableOpacity>
       </View>
     </View>
   );
 }
 
+// Color variables
+const COLOR_PRIMARY = "#22223b";
+const COLOR_SECONDARY = "#4a4e69";
+const COLOR_BACKGROUND = "#fff";
+const COLOR_QUOTE_BG = "#ecececff";
+const COLOR_BUTTON_BG = "#f7f7f7ff";
+const COLOR_ICON = "#6d6c6cff";
+const COLOR_BORDER = "#f5f5f5ff";
+
 const styles = StyleSheet.create({
   containerBoxQuote: {
-    padding: 12,
+    padding: moderateScale(20),
+    margin: moderateScale(16),
+    backgroundColor: COLOR_BACKGROUND,
+    borderRadius: moderateScale(20),
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: moderateScale(4) },
+    shadowOpacity: 0.15,
+    shadowRadius: moderateScale(12),
+    elevation: 8,
     justifyContent: "center",
     alignItems: "center",
-    gap: 10,
+    gap: moderateScale(16),
+    borderWidth: 1,
+    borderColor: COLOR_BORDER,
   },
   titleBox: {
-    fontSize: 22,
+    fontSize: moderateScale(22),
     textAlign: "center",
+    fontWeight: "700",
+    color: COLOR_PRIMARY,
+    letterSpacing: 0.5,
+    marginBottom: moderateScale(8),
   },
   containerQuote: {
-    padding: 6,
+    padding: moderateScale(12),
+    backgroundColor: COLOR_QUOTE_BG,
+    borderRadius: moderateScale(14),
     justifyContent: "center",
     alignItems: "center",
-    gap: 10,
+    gap: moderateScale(8),
+    width: "100%",
+    borderWidth: 1,
+    borderColor: COLOR_BORDER,
+    marginBottom: moderateScale(8),
   },
   quote: {
-    fontSize: 16,
+    fontSize: moderateScale(18),
     textAlign: "center",
-    color: "black",
+    color: COLOR_PRIMARY,
+    fontStyle: "italic",
+    marginBottom: moderateScale(4),
+    lineHeight: moderateScale(26),
   },
   author: {
-    fontSize: 18,
+    fontSize: moderateScale(16),
     textAlign: "center",
-    color: "black",
+    color: COLOR_SECONDARY,
+    fontWeight: "600",
+    letterSpacing: 0.2,
   },
   conatinerBottomBox: {
-    padding: 6,
+    padding: moderateScale(6),
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
-    gap: 10,
+    gap: moderateScale(16),
+    width: "100%",
+    marginTop: moderateScale(8),
   },
   button: {
-    padding: 12,
-    borderWidth: 2,
-    borderColor: "red",
-    borderRadius: 12,
+    paddingVertical: moderateScale(10),
+    paddingHorizontal: moderateScale(18),
+    borderWidth: moderateScale(1.5),
+    borderColor: COLOR_SECONDARY,
+    borderRadius: moderateScale(8),
+    backgroundColor: COLOR_BUTTON_BG,
+    marginHorizontal: moderateScale(2),
+    shadowColor: COLOR_SECONDARY,
+    shadowOffset: { width: 0, height: moderateScale(2) },
+    shadowOpacity: 0.08,
+    shadowRadius: moderateScale(4),
+    elevation: 2,
+    flexDirection: "row",
+    alignItems: "center",
+    minWidth: moderateScale(44),
+    minHeight: moderateScale(44),
   },
+
   textButton: {
-    fontSize: 14,
+    fontSize: moderateScale(15),
     textAlign: "center",
-    color: "black",
+    color: COLOR_PRIMARY,
+    fontWeight: "600",
+    letterSpacing: 0.5,
   },
 });
