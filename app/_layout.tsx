@@ -7,6 +7,7 @@ export default function RootLayout() {
       <StatusBar style="auto" />
       <Stack>
         <Stack.Screen name="index" options={{ title: "HomePage" }} />
+        <Stack.Screen name="favorites" options={{ title: "Preferiti" }} />
       </Stack>
     </>
   );
