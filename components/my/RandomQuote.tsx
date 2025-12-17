@@ -24,7 +24,7 @@ export default function RandomQuote({
       <Text style={styles.titleBox}>GENERA UNA CITAZIONE CASUALE!</Text>
       {loading && <Text>Caricamento in corso...</Text>}
       {error && <Text>Errore: {error}</Text>}
-      {quote && loading === false && (
+      {quote && loading === false && !error && (
         <View style={styles.containerQuote}>
           <Text style={styles.quote}>Citazione casuale: {quote.quote}</Text>
           <Text style={styles.author}>Autore Citazione: {quote.author}</Text>

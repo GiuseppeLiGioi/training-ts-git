@@ -15,7 +15,7 @@ export default function useQuote() {
       const data: Quote = await getQuote();
       setQuote(data);
     } catch (error) {
-      setError((error as Error).message);
+      setError(typeof error === "string" ? error : (error as Error).message);
     } finally {
       setLoading(false);
     }
