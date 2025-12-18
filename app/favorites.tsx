@@ -1,4 +1,5 @@
 import { FavoritesContext } from "@/context/favoritesContext";
+import useToastFavorites from "@/hooks/my/useToastFavorites";
 import { quotes } from "@/mock/quotes";
 import { Ionicons } from "@expo/vector-icons";
 import { useContext, useEffect, useMemo } from "react";
@@ -14,12 +15,14 @@ import { moderateScale } from "react-native-size-matters";
 export default function Favorites() {
   const {
     favoriteIds,
-    removeFavoriteQuote,
+
     isLoadingFavorites,
     errorFavorites,
-    removeAllFavorites,
+
     fetchFavorites,
   } = useContext(FavoritesContext);
+
+  const { handleRemoveAllFavorites, handleRemoveQuote } = useToastFavorites();
   useEffect(() => {
     const load = async () => {
       try {
@@ -55,7 +58,7 @@ export default function Favorites() {
                     size={moderateScale(24)}
                     color={COLOR_SECONDARY}
                     style={styles.starIcon}
-                    onPress={() => removeFavoriteQuote(item.id)}
+                    onPress={() => handleRemoveQuote(item.id)}
                   />
                   <Text style={styles.quoteFav}>
                     Citazione casuale: {item.quote}
@@ -71,7 +74,7 @@ export default function Favorites() {
 
       <TouchableOpacity
         style={styles.removeAllButton}
-        onPress={() => removeAllFavorites()}
+        onPress={() => handleRemoveAllFavorites()}
       >
         <Text style={styles.textAllButton}>Clear All</Text>
       </TouchableOpacity>

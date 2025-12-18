@@ -1,6 +1,7 @@
 import RandomQuote from "@/components/my/RandomQuote";
 import { FavoritesContext } from "@/context/favoritesContext";
 import useQuote from "@/hooks/my/useQuote";
+import useToastFavorites from "@/hooks/my/useToastFavorites";
 import * as Clipboard from "expo-clipboard";
 import { useRouter } from "expo-router";
 import { useContext, useMemo } from "react";
@@ -16,7 +17,8 @@ import { moderateScale } from "react-native-size-matters";
 
 export default function HomeScreen() {
   const { quote, loading, error, fetchQuote } = useQuote();
-  const { toggleFavorite, favoriteIds } = useContext(FavoritesContext);
+  const { favoriteIds } = useContext(FavoritesContext);
+  const { handleToggleFavorite } = useToastFavorites();
   const router = useRouter();
   const isFavorite = useMemo(
     () => (quote ? favoriteIds.includes(quote.id) : false),
@@ -52,7 +54,7 @@ export default function HomeScreen() {
           onNewQuote={fetchQuote}
           onCopy={copyToClipboard}
           onShare={shareTextQuote}
-          toggleFavorite={toggleFavorite}
+          toggleFavorite={handleToggleFavorite}
           isFavorite={isFavorite}
         />
         <TouchableOpacity
