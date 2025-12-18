@@ -1,3 +1,4 @@
+import FavoriteCardSkeleton from "@/components/my/FavoriteSkeleton";
 import { FavoritesContext } from "@/context/favoritesContext";
 import useToastFavorites from "@/hooks/my/useToastFavorites";
 import { quotes } from "@/mock/quotes";
@@ -44,6 +45,9 @@ export default function Favorites() {
         {isLoadingFavorites && <Text>Caricamento preferiti...</Text>}
         {errorFavorites && (
           <Text>errore nel tentativo di recuperare i preferiti...</Text>
+        )}
+        {!isLoadingFavorites && favoritesQuotes.length === 0 && (
+          <FavoriteCardSkeleton />
         )}
         {!errorFavorites &&
           !isLoadingFavorites &&
