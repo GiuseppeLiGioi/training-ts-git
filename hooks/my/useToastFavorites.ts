@@ -82,6 +82,7 @@ export default function useToastFavorites() {
   };
 
   const handleRemoveAllFavorites = () => {
+    if (favoriteIds.length === 0) return;
     snapshotRef.current = [...favoriteIds];
     removeAllFavorites();
     showUndoToast(() => {
