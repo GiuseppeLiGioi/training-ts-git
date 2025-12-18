@@ -12,6 +12,7 @@ type FavoritesContextType = {
   isLoadingFavorites: boolean;
   errorFavorites: string | null;
   fetchFavorites: () => Promise<void>;
+  setFavoriteIds: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 export const FavoritesContext = createContext<FavoritesContextType>({
@@ -22,6 +23,7 @@ export const FavoritesContext = createContext<FavoritesContextType>({
   isLoadingFavorites: false,
   errorFavorites: null,
   fetchFavorites: async () => {},
+  setFavoriteIds: () => {},
 });
 
 export function FavoritesProvider({ children }: { children: ReactNode }) {
@@ -69,6 +71,7 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
       value={{
         toggleFavorite,
         favoriteIds,
+        setFavoriteIds,
         removeFavoriteQuote,
         removeAllFavorites,
         isLoadingFavorites,
