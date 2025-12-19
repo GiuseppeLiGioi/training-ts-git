@@ -3,11 +3,12 @@ import { FavoritesContext } from "@/context/favoritesContext";
 import useToastFavorites from "@/hooks/my/useToastFavorites";
 import { quotes } from "@/mock/quotes";
 import { Ionicons } from "@expo/vector-icons";
-import { useContext, useEffect, useMemo } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import {
   FlatList,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -24,6 +25,8 @@ export default function Favorites() {
   } = useContext(FavoritesContext);
 
   const { handleRemoveAllFavorites, handleRemoveQuote } = useToastFavorites();
+  const [search, setSearch] = useState<string>("");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   useEffect(() => {
     const load = async () => {
       try {
@@ -39,6 +42,23 @@ export default function Favorites() {
     () => quotes.filter((q) => favoriteIds.includes(q.id)),
     [favoriteIds, quotes]
   );
+
+  const visibleQuotes = useMemo(() => {
+    const query = search.toLowerCase().trim();
+
+    const filtered = favoritesQuotes.filter(
+      (q) =>
+        q.quote.toLowerCase().includes(query) ||
+        q.author.toLowerCase().includes(query)
+    );
+
+    return filtered.sort((a, b) =>
+      sortOrder === "asc"
+        ? a.quote.localeCompare(b.quote)
+        : b.quote.localeCompare(a.quote)
+    );
+  }, [favoritesQuotes, search, sortOrder]);
+
   return (
     <>
       <View style={styles.containerFavoritesQuote}>
@@ -52,27 +72,57 @@ export default function Favorites() {
         {!errorFavorites &&
           !isLoadingFavorites &&
           favoritesQuotes.length > 0 && (
-            <FlatList
-              data={favoritesQuotes}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <View style={styles.containerSingleFav}>
-                  <Ionicons
-                    name="trash-outline"
-                    size={moderateScale(24)}
-                    color={COLOR_SECONDARY}
-                    style={styles.starIcon}
-                    onPress={() => handleRemoveQuote(item.id)}
-                  />
-                  <Text style={styles.quoteFav}>
-                    Citazione casuale: {item.quote}
-                  </Text>
-                  <Text style={styles.authorFav}>
-                    Autore Citazione: {item.author}
-                  </Text>
+            <View>
+              <View style={styles.containerActions}>
+                <TextInput
+                  value={search}
+                  onChangeText={setSearch}
+                  placeholder="Ricerca citazioni..."
+                  style={styles.searchBar}
+                  placeholderTextColor="gray"
+                />
+
+                <View style={styles.buttonsSort}>
+                  <TouchableOpacity
+                    style={styles.buttonSort}
+                    onPress={() => setSortOrder("asc")}
+                  >
+                    <Text style={styles.textButtonSort}>Ordine crescente</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.buttonSort}
+                    onPress={() => setSortOrder("desc")}
+                  >
+                    <Text style={styles.textButtonSort}>
+                      Ordine decrescente
+                    </Text>
+                  </TouchableOpacity>
                 </View>
-              )}
-            />
+              </View>
+              <View>
+                <FlatList
+                  data={visibleQuotes}
+                  keyExtractor={(item) => item.id}
+                  renderItem={({ item }) => (
+                    <View style={styles.containerSingleFav}>
+                      <Ionicons
+                        name="trash-outline"
+                        size={moderateScale(24)}
+                        color={COLOR_SECONDARY}
+                        style={styles.starIcon}
+                        onPress={() => handleRemoveQuote(item.id)}
+                      />
+                      <Text style={styles.quoteFav}>
+                        Citazione casuale: {item.quote}
+                      </Text>
+                      <Text style={styles.authorFav}>
+                        Autore Citazione: {item.author}
+                      </Text>
+                    </View>
+                  )}
+                />
+              </View>
+            </View>
           )}
       </View>
 
@@ -161,5 +211,56 @@ const styles = StyleSheet.create({
     textAlign: "center",
     letterSpacing: 0.2,
     marginTop: moderateScale(2),
+  },
+  containerActions: {
+    alignItems: "center",
+    gap: moderateScale(16),
+  },
+  searchBar: {
+    width: "90%",
+    textAlign: "center",
+    backgroundColor: COLOR_CARD,
+    borderRadius: moderateScale(16),
+    paddingVertical: moderateScale(8),
+    paddingHorizontal: moderateScale(14),
+    fontSize: moderateScale(15),
+    color: COLOR_PRIMARY,
+    borderWidth: 1,
+    borderColor: COLOR_CARD_BORDER,
+    marginRight: moderateScale(6),
+    shadowColor: COLOR_PRIMARY,
+    shadowOffset: { width: 0, height: moderateScale(2) },
+    shadowOpacity: 0.08,
+    shadowRadius: moderateScale(4),
+    elevation: 2,
+  },
+
+  buttonsSort: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: moderateScale(12),
+  },
+  buttonSort: {
+    backgroundColor: COLOR_CARD,
+    borderRadius: moderateScale(16),
+    paddingVertical: moderateScale(8),
+    paddingHorizontal: moderateScale(16),
+    marginHorizontal: moderateScale(2),
+    borderWidth: 1,
+    borderColor: COLOR_CARD_BORDER,
+    shadowColor: COLOR_PRIMARY,
+    shadowOffset: { width: 0, height: moderateScale(2) },
+    shadowOpacity: 0.08,
+    shadowRadius: moderateScale(4),
+    elevation: 2,
+  },
+  textButtonSort: {
+    color: COLOR_SECONDARY,
+    fontSize: moderateScale(15),
+    fontWeight: "600",
+    letterSpacing: 0.2,
+    textAlign: "center",
+    textTransform: "capitalize",
   },
 });
