@@ -11,6 +11,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { moderateScale } from "react-native-size-matters";
@@ -57,12 +58,20 @@ export default function HomeScreen() {
           toggleFavorite={handleToggleFavorite}
           isFavorite={isFavorite}
         />
-        <TouchableOpacity
-          style={styles.buttonFavorites}
-          onPress={() => router.push("/favorites")}
-        >
-          <Text style={styles.textButton}>Citazioni Preferite</Text>
-        </TouchableOpacity>
+        <View style={styles.conatinerButtons}>
+          <TouchableOpacity
+            style={styles.buttonFavorites}
+            onPress={() => router.push("/favorites")}
+          >
+            <Text style={styles.textButton}>Citazioni Preferite</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonPersonalQuotes}
+            onPress={() => router.push("/personals")}
+          >
+            <Text style={styles.textButton}>Citazioni Personali</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -81,5 +90,17 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(16),
     fontWeight: "600",
     textAlign: "center",
+  },
+  conatinerButtons: {
+    gap: moderateScale(10),
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  buttonPersonalQuotes: {
+    backgroundColor: "#7abdfcff",
+    padding: moderateScale(12),
+    borderRadius: moderateScale(8),
+    width: moderateScale(200),
+    alignItems: "center",
   },
 });

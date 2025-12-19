@@ -3,7 +3,7 @@ import { PersonalQuote } from "@/types/quote";
 import { useContext, useRef } from "react";
 import { moderateScale } from "react-native-size-matters";
 import Toast from "react-native-toast-message";
-export default function useToastFavorites() {
+export default function useToastPersonalQuotes() {
   const {
     addPersonalQuote,
     removePersonalQuote,
@@ -31,6 +31,7 @@ export default function useToastFavorites() {
       text2: "RIPRISTINA MODIFICHE",
       visibilityTime: UNDO_TIMEOUT,
       onPress: onUndo,
+      position: "bottom",
       text1Style: {
         fontSize: moderateScale(17),
         fontWeight: "700",

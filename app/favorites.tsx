@@ -2,7 +2,7 @@ import FavoriteCardSkeleton from "@/components/my/FavoriteSkeleton";
 import { FavoritesContext } from "@/context/FavoritesContext";
 import useToastFavorites from "@/hooks/my/useToastFavorites";
 import { quotes } from "@/mock/quotes";
-import { Ionicons } from "@expo/vector-icons";
+import SingleQuote from "@/components/my/SingleQuote";
 import { useContext, useEffect, useMemo, useState } from "react";
 import {
   FlatList,
@@ -104,21 +104,7 @@ export default function Favorites() {
                   data={visibleQuotes}
                   keyExtractor={(item) => item.id}
                   renderItem={({ item }) => (
-                    <View style={styles.containerSingleFav}>
-                      <Ionicons
-                        name="trash-outline"
-                        size={moderateScale(24)}
-                        color={COLOR_SECONDARY}
-                        style={styles.starIcon}
-                        onPress={() => handleRemoveQuote(item.id)}
-                      />
-                      <Text style={styles.quoteFav}>
-                        Citazione casuale: {item.quote}
-                      </Text>
-                      <Text style={styles.authorFav}>
-                        Autore Citazione: {item.author}
-                      </Text>
-                    </View>
+                    <SingleQuote quote={item.quote} author={item.author} onRemove={() => handleRemoveQuote(item.id)} />
                   )}
                 />
               </View>
@@ -175,43 +161,7 @@ const styles = StyleSheet.create({
     paddingVertical: moderateScale(16),
     paddingHorizontal: moderateScale(8),
   },
-  containerSingleFav: {
-    backgroundColor: COLOR_CARD,
-    borderRadius: moderateScale(16),
-    padding: moderateScale(18),
-    marginVertical: moderateScale(10),
-    marginHorizontal: moderateScale(4),
-    shadowColor: COLOR_PRIMARY,
-    shadowOffset: { width: 0, height: moderateScale(4) },
-    shadowOpacity: 0.1,
-    shadowRadius: moderateScale(8),
-    elevation: 4,
-    borderWidth: 1,
-    borderColor: COLOR_CARD_BORDER,
-    position: "relative",
-  },
-  starIcon: {
-    position: "absolute",
-    top: moderateScale(8),
-    right: moderateScale(6),
-  },
-  quoteFav: {
-    fontSize: moderateScale(18),
-    color: COLOR_PRIMARY,
-    fontStyle: "italic",
-    marginBottom: moderateScale(10),
-    textAlign: "center",
-    marginTop: moderateScale(22),
-    lineHeight: moderateScale(26),
-  },
-  authorFav: {
-    color: COLOR_SECONDARY,
-    fontSize: moderateScale(16),
-    fontWeight: "700",
-    textAlign: "center",
-    letterSpacing: 0.2,
-    marginTop: moderateScale(2),
-  },
+  
   containerActions: {
     alignItems: "center",
     gap: moderateScale(16),

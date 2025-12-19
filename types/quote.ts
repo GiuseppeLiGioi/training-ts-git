@@ -7,6 +7,6 @@ export interface Quote {
 export interface PersonalQuote {
   id: string;
   quote: string;
-  author?: string;
+  author: string;
   createdAt: Date;
 }
