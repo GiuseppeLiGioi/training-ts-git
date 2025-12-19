@@ -1,4 +1,4 @@
-import { FavoritesProvider } from "@/context/favoritesContext";
+import { FavoritesProvider } from "@/context/FavoritesContext";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import Toast from "react-native-toast-message";

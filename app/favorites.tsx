@@ -1,5 +1,5 @@
 import FavoriteCardSkeleton from "@/components/my/FavoriteSkeleton";
-import { FavoritesContext } from "@/context/favoritesContext";
+import { FavoritesContext } from "@/context/FavoritesContext";
 import useToastFavorites from "@/hooks/my/useToastFavorites";
 import { quotes } from "@/mock/quotes";
 import { Ionicons } from "@expo/vector-icons";

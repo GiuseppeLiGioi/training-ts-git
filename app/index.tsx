@@ -1,5 +1,5 @@
 import RandomQuote from "@/components/my/RandomQuote";
-import { FavoritesContext } from "@/context/favoritesContext";
+import { FavoritesContext } from "@/context/FavoritesContext";
 import useQuote from "@/hooks/my/useQuote";
 import useToastFavorites from "@/hooks/my/useToastFavorites";
 import * as Clipboard from "expo-clipboard";

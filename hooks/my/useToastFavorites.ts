@@ -1,4 +1,4 @@
-import { FavoritesContext } from "@/context/favoritesContext";
+import { FavoritesContext } from "@/context/FavoritesContext";
 import { useContext, useRef } from "react";
 import { moderateScale } from "react-native-size-matters";
 import Toast from "react-native-toast-message";
