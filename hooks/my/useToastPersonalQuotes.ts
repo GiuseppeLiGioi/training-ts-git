@@ -9,6 +9,7 @@ export default function useToastPersonalQuotes() {
     removePersonalQuote,
     personalQuotes,
     setPersonalQuotes,
+    removeAllPersonalQuotes,
   } = useContext(PersonalQuoteContext);
 
   const UNDO_TIMEOUT = 4000;
@@ -78,5 +79,20 @@ export default function useToastPersonalQuotes() {
     }, "citazione personale rimossa");
   };
 
-  return { handleAddPersonalQuote, handleRemovePersonalQuote };
+  const handleRemoveAllPersonalQuotes = () => {
+    snapshotRef.current = [...personalQuotes];
+    removeAllPersonalQuotes();
+    showUndoToast(() => {
+      if (snapshotRef.current) {
+        setPersonalQuotes(snapshotRef.current);
+        clearUndo();
+      }
+    }, "citazioni personali rimosse");
+  };
+
+  return {
+    handleAddPersonalQuote,
+    handleRemovePersonalQuote,
+    handleRemoveAllPersonalQuotes,
+  };
 }
